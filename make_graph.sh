@@ -24,9 +24,13 @@ done
 # - for ignoring first (start up) low numbers and final (during stopping server) low numbers - return 10th lowest number
 res=`cat $SERVER_LOG | grep "HANDLED INVOCATIONS IN THE PREVIOUS SECOND" | sed 's/.*HANDLED INVOCATIONS IN THE PREVIOUS SECOND..//g' | sed 's/ ===//g' | sort -n | head -n 10 | tail -n 1`
 echo YVALUE=$res > $SERVER_MIN_LOG
+echo "server min log"
+echo YVALUE=$res
 # maximal value
 res=`cat $SERVER_LOG | grep "HANDLED INVOCATIONS IN THE PREVIOUS SECOND" | sed 's/.*HANDLED INVOCATIONS IN THE PREVIOUS SECOND..//g' | sed 's/ ===//g' | sort -n | tail -n 1`
 echo YVALUE=$res > $SERVER_MAX_LOG
+echo "server max log"
+echo YVALUE=$res
 
 # DATA FROM CLIENT
 
@@ -37,4 +41,6 @@ echo YVALUE=$res > $SERVER_MAX_LOG
 # maximal count of clients
 res=`cat $CLIENT_LOG | grep "collecting results.. clients=" | sed 's/.*collecting results.. clients=//g' | sed 's/; average.*//g' | sort -n | tail -n 1`
 echo YVALUE=$res > $CLIENT_LOG
+echo "client log"
+echo YVALUE=$res
 
