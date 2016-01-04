@@ -2,15 +2,15 @@
 
 # read server.log and find the biggest and the lowest number of handled invocations (ignore low numbers at start and end of server)
 
-SERVER_MIN_LOG="server_min.properties"
-SERVER_MAX_LOG="server_max.properties"
-CLIENT_LOG="client_max_clients.properties"
+SERVER_MIN_LOG_OUTPUT="server_min.properties"
+SERVER_MAX_LOG_OUTPUT="server_max.properties"
+CLIENT_LOG_OUTPUT="client_max_clients.properties"
 
-SERVER_LOG="server.log"
+SERVER_LOG_INPUT="server.log"
 
 # script read data from one of clients log (first one)
 for mach in $CLIENT_MACHINES; do
-    CLIENT_LOG="results-$mach.log"
+    CLIENT_LOG_INPUT="results-$mach.log"
     break
 done
 
@@ -22,13 +22,16 @@ done
 
 # minimal value
 # - for ignoring first (start up) low numbers and final (during stopping server) low numbers - return 10th lowest number
-res=`cat $SERVER_LOG | grep "HANDLED INVOCATIONS IN THE PREVIOUS SECOND" | sed 's/.*HANDLED INVOCATIONS IN THE PREVIOUS SECOND..//g' | sed 's/ ===//g' | sort -n | head -n 10 | tail -n 1`
-echo YVALUE=$res > $SERVER_MIN_LOG
+res=`cat $SERVER_LOG_INPUT | grep "HANDLED INVOCATIONS IN THE PREVIOUS SECOND" | sed 's/.*HANDLED INVOCATIONS IN THE PREVIOUS SECOND..//g' | sed 's/ ===//g' | sort -n | head -n 10 | tail -n 1`
+echo YVALUE=$res > $SERVER_MIN_LOG_OUTPUT
+<<<<<<< HEAD
 echo "server min log"
 echo YVALUE=$res
+=======
+>>>>>>> 6570ecc641fbdd6fea03fbd02f7096330dd5c15f
 # maximal value
-res=`cat $SERVER_LOG | grep "HANDLED INVOCATIONS IN THE PREVIOUS SECOND" | sed 's/.*HANDLED INVOCATIONS IN THE PREVIOUS SECOND..//g' | sed 's/ ===//g' | sort -n | tail -n 1`
-echo YVALUE=$res > $SERVER_MAX_LOG
+res=`cat $SERVER_LOG_INPUT | grep "HANDLED INVOCATIONS IN THE PREVIOUS SECOND" | sed 's/.*HANDLED INVOCATIONS IN THE PREVIOUS SECOND..//g' | sed 's/ ===//g' | sort -n | tail -n 1`
+echo YVALUE=$res > $SERVER_MAX_LOG_OUTPUT
 echo "server max log"
 echo YVALUE=$res
 
@@ -38,9 +41,18 @@ echo YVALUE=$res
 # 03:28:10,592 INFO  [com.redhat.qe.ejbperf.PerfTestRunner:130] collecting results.. clients=620; average latency=212ms; successful calls=10741; calls per client=17
 # interested data is "clients" 
 
+<<<<<<< HEAD
+=======
+# DATA FROM CLIENT
+
+# example of line of client log (result-perf18.log)
+# 03:28:10,592 INFO  [com.redhat.qe.ejbperf.PerfTestRunner:130] collecting results.. clients=620; average latency=212ms; successful calls=10741; calls per client=17
+# interested data is "clients" 
+
+>>>>>>> 6570ecc641fbdd6fea03fbd02f7096330dd5c15f
 # maximal count of clients
-res=`cat $CLIENT_LOG | grep "collecting results.. clients=" | sed 's/.*collecting results.. clients=//g' | sed 's/; average.*//g' | sort -n | tail -n 1`
-echo YVALUE=$res > $CLIENT_LOG
+res=`cat $CLIENT_LOG_INPUT | grep "collecting results.. clients=" | sed 's/.*collecting results.. clients=//g' | sed 's/; average.*//g' | sort -n | tail -n 1`
+echo YVALUE=$res > $CLIENT_LOG_OUTPUT
 echo "client log"
 echo YVALUE=$res
 
